@@ -1,0 +1,105 @@
+inventory-app/
+├── backend/
+│   ├── config/
+│   │   ├── db.js
+│   │   └── env.js
+│   ├── db/
+│   │   ├── migrations/
+│   │   │   ├── 001_create_users.js
+│   │   │   ├── 002_create_materials.js
+│   │   │   ├── 003_create_movements.js
+│   │   │   ├── 004_create_purchase_orders.js
+│   │   │   └── 005_create_alerts.js
+│   │   └── seeds/
+│   │       ├── users.js
+│   │       └── materials.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Material.js
+│   │   ├── Movement.js
+│   │   ├── PurchaseOrder.js
+│   │   ├── Alert.js
+│   │   └── Duplicate.js
+│   ├── services/
+│   │   ├── authService.js
+│   │   ├── stockService.js
+│   │   ├── alertService.js
+│   │   ├── duplicateService.js
+│   │   ├── purchaseOrderService.js
+│   │   └── traceabilityService.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── materialController.js
+│   │   ├── movementController.js
+│   │   ├── purchaseOrderController.js
+│   │   ├── alertController.js
+│   │   ├── duplicateController.js
+│   │   └── traceabilityController.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── materialRoutes.js
+│   │   ├── movementRoutes.js
+│   │   ├── purchaseOrderRoutes.js
+│   │   ├── alertRoutes.js
+│   │   ├── duplicateRoutes.js
+│   │   └── traceabilityRoutes.js
+│   ├── middleware/
+│   │   ├── authMiddleware.js
+│   │   ├── errorMiddleware.js
+│   │   └── validationMiddleware.js
+│   ├── utils/
+│   │   ├── logger.js
+│   │   ├── jwt.js
+│   │   └── pagination.js
+│   ├── tests/
+│   │   ├── services/
+│   │   │   ├── stockService.test.js
+│   │   │   └── alertService.test.js
+│   │   └── controllers/
+│   │       └── materialController.test.js
+│   ├── app.js
+│   └── server.js
+└── frontend/
+    ├── api/
+    │   ├── client.js
+    │   ├── authApi.js
+    │   ├── materialsApi.js
+    │   ├── purchaseOrdersApi.js
+    │   ├── alertsApi.js
+    │   ├── duplicatesApi.js
+    │   └── traceabilityApi.js
+    ├── context/
+    │   ├── AuthContext.jsx
+    │   ├── StockContext.jsx
+    │   └── AlertContext.jsx
+    ├── components/
+    │   ├── common/
+    │   │   ├── Table.jsx
+    │   │   ├── Modal.jsx
+    │   │   └── Badge.jsx
+    │   ├── materials/
+    │   │   ├── MaterialList.jsx
+    │   │   └── MaterialForm.jsx
+    │   ├── purchaseOrders/
+    │   │   ├── POList.jsx
+    │   │   └── POForm.jsx
+    │   └── alerts/
+    │       └── AlertBadge.jsx
+    ├── pages/
+    │   ├── Login.jsx
+    │   ├── Dashboard.jsx
+    │   ├── MaterialDetail.jsx
+    │   ├── Traceability.jsx
+    │   ├── Locations.jsx
+    │   ├── Duplicates.jsx
+    │   ├── PurchaseOrders.jsx
+    │   ├── PurchaseOrderDetail.jsx
+    │   └── Alerts.jsx
+    ├── router/
+    │   ├── App.jsx
+    │   └── main.jsx
+    ├── estilos/
+    │   ├── globals.css
+    │   ├── variables.css
+    │   └── components.css
+    └── index.html
