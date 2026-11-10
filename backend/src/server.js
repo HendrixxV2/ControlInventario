@@ -8,9 +8,28 @@ async function start() {
   await db.checkConnection();
 
   const stopAlertCron = alertCron.start();
-  const server = app.listen(env.PORT, env.HOST, () => {
-    console.log(`API escuchando en http://localhost:${env.PORT}`);
-  });
+  const server = app.listen(env.PORT, env.HOST);
+
+  try {
+    await new Promise((resolve, reject) => {
+      const onListening = () => {
+        server.off('error', onError);
+        resolve();
+      };
+      const onError = (error) => {
+        server.off('listening', onListening);
+        reject(error);
+      };
+
+      server.once('listening', onListening);
+      server.once('error', onError);
+    });
+  } catch (error) {
+    await stopAlertCron();
+    throw error;
+  }
+
+  console.log(`API escuchando en http://localhost:${env.PORT}`);
 
   for (const signal of ['SIGINT', 'SIGTERM']) {
     process.once(signal, () => {
@@ -35,7 +54,10 @@ async function start() {
 
 if (require.main === module) {
   start().catch(async (error) => {
-    console.error('No se pudo iniciar el backend:', error.message);
+    const message = error.code === 'EADDRINUSE'
+      ? `El puerto ${env.PORT} ya está ocupado en ${env.HOST}. Detén el proceso que lo usa o configura otro PORT en backend/.env y actualiza VITE_API_URL en frontend/.env.`
+      : error.message;
+    console.error('No se pudo iniciar el backend:', message);
     await db.pool.end();
     process.exitCode = 1;
   });

@@ -29,6 +29,8 @@ Al iniciar, la API aplica las migraciones, crea el administrador inicial si toda
 
 El backend ejecuta una revisión automática de alertas cada cinco minutos (`ALERTS_CRON_SCHEDULE=*/5 * * * *`). Puedes cambiar el intervalo usando una expresión cron válida de cinco campos en `backend\.env`. La tarea evita revisiones simultáneas y espera a que una revisión activa termine antes de cerrar la conexión MySQL.
 
+Si el puerto `4000` ya está ocupado, reutiliza la instancia del backend que ya está ejecutándose o cambia `PORT` en `backend\.env`; si cambias el puerto, configura el mismo origen en `VITE_API_URL` dentro de `frontend\.env`.
+
 Para ejecutar tareas por separado:
 
 ```powershell
