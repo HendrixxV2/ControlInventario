@@ -13,6 +13,15 @@ const pool = mysql.createPool({
   dateStrings: true
 });
 
+async function checkConnection() {
+  const connection = await pool.getConnection();
+  try {
+    await connection.ping();
+  } finally {
+    connection.release();
+  }
+}
+
 async function query(sql, params = []) {
   const [rows] = await pool.execute(sql, params);
   return rows;
@@ -26,11 +35,15 @@ async function withTransaction(fn) {
     await conn.commit();
     return result;
   } catch (err) {
-    await conn.rollback();
+    try {
+      await conn.rollback();
+    } catch (rollbackError) {
+      err.rollbackError = rollbackError;
+    }
     throw err;
   } finally {
     conn.release();
   }
 }
 
-module.exports = { pool, query, withTransaction };
+module.exports = { pool, query, withTransaction, checkConnection };

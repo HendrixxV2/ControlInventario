@@ -1,16 +1,41 @@
-# React + Vite
+# Control de Inventario
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación React/Vite con API Express, autenticación JWT y persistencia MySQL.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 18 o posterior y npm
+- MySQL local
 
-## React Compiler
+## Configuración local (PowerShell)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Desde la carpeta del proyecto:
 
-## Expanding the ESLint configuration
+```powershell
+npm install
+Copy-Item backend\.env.example backend\.env
+Copy-Item frontend\.env.example frontend\.env
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Revisa `backend\.env` y confirma host, puerto, usuario, contraseña y nombre de la base MySQL. Cambia `JWT_SECRET` por una clave aleatoria de al menos 32 caracteres antes de usar datos reales. El usuario MySQL necesita permiso para crear la base de datos y sus tablas en la primera migración.
+
+Inicia la interfaz y la API con:
+
+```powershell
+npm run dev
+```
+
+Al iniciar, la API aplica las migraciones, crea el administrador inicial si todavía no existe y luego se conecta a MySQL. En desarrollo genera una contraseña aleatoria y la muestra una sola vez en la terminal. También puedes definir `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` en `backend\.env`. La interfaz queda en `http://localhost:5173` y la API en `http://localhost:4000`.
+
+El backend ejecuta una revisión automática de alertas cada cinco minutos (`ALERTS_CRON_SCHEDULE=*/5 * * * *`). Puedes cambiar el intervalo usando una expresión cron válida de cinco campos en `backend\.env`. La tarea evita revisiones simultáneas y espera a que una revisión activa termine antes de cerrar la conexión MySQL.
+
+Para ejecutar tareas por separado:
+
+```powershell
+npm run migrate
+npm run seed
+npm run dev:frontend
+npm run dev:backend
+```
+
+`npm run build` compila la interfaz para producción. `npm test` ejecuta las pruebas del backend. En producción, configura un `JWT_SECRET` propio y `SEED_ADMIN_PASSWORD` si necesitas crear el primer administrador; no uses claves de ejemplo.

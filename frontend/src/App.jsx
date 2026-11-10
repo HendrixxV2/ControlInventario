@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Materials from './pages/Materials';
 import MaterialDetail from './pages/MaterialDetail';
 import Movements from './pages/Movements';
-import Locations from './pages/Locations';
+import Locations from './pages/Location';
 import Suppliers from './pages/Suppliers';
 import PurchaseOrders from './pages/PurchaseOrders';
 import PurchaseOrderDetail from './pages/PurchaseOrderDetail';

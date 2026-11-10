@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api/client';
 
@@ -7,11 +7,11 @@ export default function PurchaseOrderDetail() {
   const [order, setOrder] = useState(null);
   const [error, setError] = useState('');
 
-  async function load() {
+  const load = useCallback(async () => {
     const { data } = await api.get(`/purchase-orders/${id}`);
     setOrder(data);
-  }
-  useEffect(() => { load(); }, [id]);
+  }, [id]);
+  useEffect(() => { load(); }, [load]);
 
   async function receive() {
     setError('');

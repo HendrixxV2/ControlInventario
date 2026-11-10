@@ -1,4 +1,4 @@
-const { query, withTransaction } = require('../config/db');
+const { withTransaction } = require('../config/db');
 const purchaseOrderModel = require('../models/purchaseOrderModel');
 const materialModel = require('../models/materialModel');
 const supplierModel = require('../models/supplierModel');
