@@ -1,8 +1,12 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
+const inheritedPort = process.env.PORT;
+const backendPort = process.env.BACKEND_PORT
+  || (Number(inheritedPort) === 4000 ? 4001 : inheritedPort || 4001);
+
 const env = {
-  PORT: Number(process.env.PORT || 4000),
+  PORT: Number(backendPort),
   HOST: process.env.HOST || '127.0.0.1',
   DB_HOST: process.env.DB_HOST || '127.0.0.1',
   DB_PORT: Number(process.env.DB_PORT || 3306),
@@ -12,7 +16,7 @@ const env = {
   JWT_SECRET: process.env.JWT_SECRET || '',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '8h',
   ALERTS_CRON_SCHEDULE: process.env.ALERTS_CRON_SCHEDULE || '*/5 * * * *',
-  CORS_ORIGINS: (process.env.CORS_ORIGIN || 'http://localhost:5173')
+  CORS_ORIGINS: (process.env.CORS_ORIGIN || 'http://localhost:4000,http://localhost:5173')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean),
@@ -22,6 +26,9 @@ const env = {
 function validateEnv() {
   if (!Number.isInteger(env.PORT) || env.PORT < 1 || env.PORT > 65535) {
     throw new Error('PORT debe ser un puerto válido entre 1 y 65535');
+  }
+  if (env.PORT === 4000) {
+    throw new Error('BACKEND_PORT no puede ser 4000 porque ese puerto está reservado para la interfaz');
   }
   if (!Number.isInteger(env.DB_PORT) || env.DB_PORT < 1 || env.DB_PORT > 65535) {
     throw new Error('DB_PORT debe ser un puerto válido entre 1 y 65535');

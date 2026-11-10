@@ -31,7 +31,16 @@ async function main() {
       console.log(`Contraseña temporal (guárdala ahora): ${password}`);
     }
   } else {
-    console.log(`El usuario administrador ${email} ya existe; no se modificó`);
+    if (process.env.SEED_ADMIN_PASSWORD) {
+      const hash = await bcrypt.hash(password, 12);
+      await query('UPDATE users SET password_hash = ? WHERE id = ?', [
+        hash,
+        users[0].id
+      ]);
+      console.log(`Contraseña del administrador ${email} actualizada`);
+    } else {
+      console.log(`El usuario administrador ${email} ya existe; no se modificó`);
+    }
   }
 
   const rules = await query(

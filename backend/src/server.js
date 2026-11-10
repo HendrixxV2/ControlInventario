@@ -55,7 +55,7 @@ async function start() {
 if (require.main === module) {
   start().catch(async (error) => {
     const message = error.code === 'EADDRINUSE'
-      ? `El puerto ${env.PORT} ya está ocupado en ${env.HOST}. Detén el proceso que lo usa o configura otro PORT en backend/.env y actualiza VITE_API_URL en frontend/.env.`
+      ? `El puerto ${env.PORT} ya está ocupado en ${env.HOST}. Libera el puerto o configura otro PORT en backend/.env y actualiza el proxy /api en vite.config.js.`
       : error.message;
     console.error('No se pudo iniciar el backend:', message);
     await db.pool.end();

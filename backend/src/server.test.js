@@ -2,7 +2,7 @@ jest.mock('./app', () => ({
   listen: jest.fn()
 }));
 jest.mock('./config/env', () => ({
-  PORT: 4000,
+  PORT: 4001,
   HOST: '127.0.0.1',
   validateEnv: jest.fn()
 }));
@@ -37,6 +37,8 @@ describe('backend server startup', () => {
 
     await expect(start()).rejects.toBe(bindError);
 
+    expect(app.listen).toHaveBeenCalledWith(4001, '127.0.0.1');
     expect(stopAlertCron).toHaveBeenCalledTimes(1);
   });
+
 });

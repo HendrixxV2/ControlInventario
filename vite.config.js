@@ -5,4 +5,12 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   root: 'frontend',
   plugins: [react()],
+  server: {
+    host: '127.0.0.1',
+    port: 4000,
+    strictPort: true,
+    proxy: {
+      '/api': 'http://127.0.0.1:4001'
+    }
+  },
 })

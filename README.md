@@ -25,11 +25,11 @@ Inicia la interfaz y la API con:
 npm run dev
 ```
 
-Al iniciar, la API aplica las migraciones, crea el administrador inicial si todavía no existe y luego se conecta a MySQL. En desarrollo genera una contraseña aleatoria y la muestra una sola vez en la terminal. También puedes definir `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` en `backend\.env`. La interfaz queda en `http://localhost:5173` y la API en `http://localhost:4000`.
+Al iniciar, la API aplica las migraciones, crea el administrador inicial si todavía no existe y luego se conecta a MySQL. En desarrollo genera una contraseña aleatoria y la muestra una sola vez en la terminal. También puedes definir `SEED_ADMIN_EMAIL` y `SEED_ADMIN_PASSWORD` en `backend\.env`. La interfaz queda en `http://localhost:4000` y la API en `http://localhost:4001`; las llamadas `/api` de la interfaz se enrutan automáticamente al backend.
 
 El backend ejecuta una revisión automática de alertas cada cinco minutos (`ALERTS_CRON_SCHEDULE=*/5 * * * *`). Puedes cambiar el intervalo usando una expresión cron válida de cinco campos en `backend\.env`. La tarea evita revisiones simultáneas y espera a que una revisión activa termine antes de cerrar la conexión MySQL.
 
-Si el puerto `4000` ya está ocupado, reutiliza la instancia del backend que ya está ejecutándose o cambia `PORT` en `backend\.env`; si cambias el puerto, configura el mismo origen en `VITE_API_URL` dentro de `frontend\.env`.
+Si necesitas cambiar los puertos, ajusta `BACKEND_PORT` en `backend\.env` y el destino del proxy `/api` en `vite.config.js`. El backend ignora un `PORT=4000` heredado del entorno para no intentar ocupar el puerto de la interfaz. También puedes definir `VITE_API_URL` en `frontend\.env` para conectar la interfaz directamente a la URL de la API.
 
 Para ejecutar tareas por separado:
 
